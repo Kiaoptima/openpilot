@@ -53,6 +53,10 @@ class PathPlanner():
     self.path_offset_i = 0.0
     self.lane_change_state = LaneChangeState.off
     self.lane_change_timer = 0.0
+    self.pre_auto_LCA_timer = 0.0
+    self.LCA_min_speed = 45 #mph
+    self.auto_LCA_time = 1.0
+    self.auto_LCA = True
     self.prev_one_blinker = False
 
   def setup_mpc(self):
@@ -91,16 +95,24 @@ class PathPlanner():
 
     if not active or self.lane_change_timer > 10.0:
       self.lane_change_state = LaneChangeState.off
+      self.pre_auto_LCA_timer = 0.0
     else:
       if sm['carState'].leftBlinker:
         lane_change_direction = LaneChangeDirection.left
+        self.pre_auto_LCA_timer += DT_MDL
       elif sm['carState'].rightBlinker:
         lane_change_direction = LaneChangeDirection.right
-
-      if lane_change_direction == LaneChangeDirection.left:
-        torque_applied = sm['carState'].steeringTorque > 0 and sm['carState'].steeringPressed
+        self.pre_auto_LCA_timer += DT_MDL
       else:
-        torque_applied = sm['carState'].steeringTorque < 0 and sm['carState'].steeringPressed
+        self.pre_auto_LCA_timer = 0.0
+
+      if self.auto_LCA and self.pre_auto_LCA_timer > self.auto_LCA_time:
+        torque_applied = True
+      else:
+        if lane_change_direction == LaneChangeDirection.left:
+          torque_applied = sm['carState'].steeringTorque > 0 and sm['carState'].steeringPressed
+        else:
+          torque_applied = sm['carState'].steeringTorque < 0 and sm['carState'].steeringPressed
 
       lane_change_prob = self.LP.l_lane_change_prob + self.LP.r_lane_change_prob
 
@@ -123,8 +135,8 @@ class PathPlanner():
       elif self.lane_change_state == LaneChangeState.laneChangeFinishing and lane_change_prob < 0.2:
         self.lane_change_state = LaneChangeState.preLaneChange
 
-      # Don't allow starting lane change below 45 mph
-      if (v_ego < 45 * CV.MPH_TO_MS) and (self.lane_change_state == LaneChangeState.preLaneChange):
+      # Don't allow starting lane change below set mph
+      if (v_ego < self.LCA_min_speed * CV.MPH_TO_MS) and (self.lane_change_state == LaneChangeState.preLaneChange):
         self.lane_change_state = LaneChangeState.off
 
     if self.lane_change_state in [LaneChangeState.off, LaneChangeState.preLaneChange]:
