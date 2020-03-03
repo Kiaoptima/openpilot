@@ -16,7 +16,7 @@ LaneChangeBSM = log.PathPlan.LaneChangeBSM
 
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
-LANE_CHANGE_SPEED_MIN = 40 * CV.MPH_TO_MS
+LANE_CHANGE_SPEED_MIN = 37 * CV.MPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
 
 DESIRES = {
