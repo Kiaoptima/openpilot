@@ -41,6 +41,19 @@ class CarInterface(CarInterfaceBase):
 
     ret.steermaxLimit = 255  # stock
 
+    ret.stoppingControl = True
+    ret.startAccel = 0.0
+
+    # ignore CAN2 address if L-CAN on the same BUS
+    ret.mdpsBus = 1 if 593 in fingerprint[1] and 1296 not in fingerprint[1] else 0
+    ret.sasBus = 1 if 688 in fingerprint[1] and 1296 not in fingerprint[1] else 0
+    ret.sccBus = 0 if 1056 in fingerprint[0] else 1 if 1056 in fingerprint[1] and 1296 not in fingerprint[1] \
+                                                                     else 2 if 1056 in fingerprint[2] else -1
+    ret.radarOffCan = ret.sccBus == -1
+    ret.openpilotLongitudinalControl = False #TODO make ui toggle
+    ret.enableCruise = not ret.radarOffCan
+    ret.autoLcaEnabled = True
+
     #Long tuning Params -  make individual params for cars, baseline Hyundai genesis
     ret.longitudinalTuning.kpBP = [0., 5., 35.]
     ret.longitudinalTuning.kpV = [.85, .65, .65]
@@ -114,8 +127,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 16.5
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0., 30.], [0., 30.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.01, 0.13], [0.001, 0.005]]
-
-      #ret.minSteerSpeed = 60 * CV.KPH_TO_MS # check for MDPS harness present
+      ret.minSteerSpeed = 60 * CV.KPH_TO_MS if ret.mdpsBus == 0 else ret.minSteerSpeed = 0.
 
     elif candidate == CAR.GENESIS_G80:
       ret.steermaxLimit = 409
@@ -171,7 +183,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.385
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
-      ret.minSteerSpeed = 32 * CV.MPH_TO_MS
+      ret.minSteerSpeed = 32 * CV.MPH_TO_MS if ret.mdpsBus == 0 else ret.minSteerSpeed = 0.
     elif candidate == CAR.KIA_FORTE:
       ret.lateralTuning.pid.kf = 0.00005
       ret.mass = 3558. * CV.LB_TO_KG
@@ -197,19 +209,6 @@ class CarInterface(CarInterfaceBase):
                                                                          tire_stiffness_factor=tire_stiffness_factor)
 
     ret.enableCamera = is_ecu_disconnected(fingerprint[0], FINGERPRINTS, ECU_FINGERPRINT, candidate, Ecu.fwdCamera) or has_relay
-
-    ret.stoppingControl = True
-    ret.startAccel = 0.0
-
-    # ignore CAN2 address if L-CAN on the same BUS
-    ret.mdpsBus = 1 if 593 in fingerprint[1] and 1296 not in fingerprint[1] else 0
-    ret.sasBus = 1 if 688 in fingerprint[1] and 1296 not in fingerprint[1] else 0
-    ret.sccBus = 0 if 1056 in fingerprint[0] else 1 if 1056 in fingerprint[1] and 1296 not in fingerprint[1] \
-                                                                     else 2 if 1056 in fingerprint[2] else -1
-    ret.radarOffCan = ret.sccBus == -1
-    ret.openpilotLongitudinalControl = False #TODO make ui toggle
-    ret.enableCruise = not ret.radarOffCan
-    ret.autoLcaEnabled = True
 
     return ret
 
