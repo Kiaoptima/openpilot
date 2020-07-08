@@ -139,7 +139,7 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngle) < 90.
 
     # fix for Genesis hard fault at low speed
-    if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.HYUNDAI_GENESIS and not CS.mdps_bus:
+    if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.HYUNDAI_GENESIS and not CS.mdps_bus:
       lkas_active = 0
 
     if not lkas_active:
@@ -426,7 +426,7 @@ class CarController():
         can_sends.append(create_clu11(self.packer, frame, CS.scc_bus, CS.clu11, Buttons.RES_ACCEL, clu11_speed))
         self.resume_cnt += 1
         # interval after 6 msgs
-        if self.resume_cnt > 5:
+        if self.resume_cnt > 0:
           self.last_resume_frame = frame
           self.resume_cnt = 0
     # reset lead distnce after the car starts moving
