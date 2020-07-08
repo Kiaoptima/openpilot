@@ -256,8 +256,8 @@ class CarInterface(CarInterfaceBase):
 
     if abs(ret.steeringAngle) > 90. and EventName.steerTempUnavailable not in events.events:
       events.add(EventName.steerTempUnavailable)
-    if self.low_speed_alert and not self.CS.mdps_bus:
-      events.add(car.CarEvent.EventName.belowSteerSpeed)
+    #if self.low_speed_alert and not self.CS.mdps_bus:
+    #  events.add(car.CarEvent.EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
       events.add(EventName.turningIndicatorOn)
     if self.lkas_button_alert:
