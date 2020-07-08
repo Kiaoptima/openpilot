@@ -67,7 +67,7 @@ Supported Cars
 | Acura     | ILX 2016-18                   | AcuraWatch Plus   | openpilot        | 25mph<sup>1</sup>  | 25mph             |
 | Acura     | RDX 2016-18                   | AcuraWatch Plus   | openpilot        | 25mph<sup>1</sup>  | 12mph             |
 | Honda     | Accord 2018-19                | All               | Stock            | 0mph               | 3mph              |
-| Honda     | Accord Hybrid 2018-19         | All               | Stock            | 0mph               | 3mph              |
+| Honda     | Accord Hybrid 2018-20         | All               | Stock            | 0mph               | 3mph              |
 | Honda     | Civic Hatchback 2017-19       | Honda Sensing     | Stock            | 0mph               | 12mph             |
 | Honda     | Civic Sedan/Coupe 2016-18     | Honda Sensing     | openpilot        | 0mph               | 12mph             |
 | Honda     | Civic Sedan/Coupe 2019-20     | Honda Sensing     | Stock            | 0mph               | 2mph<sup>2</sup>  |
@@ -158,6 +158,7 @@ Community Maintained Cars and Features
 | Nissan    | Leaf 2018-19<sup>2</sup>      | Propilot          | Stock            | 0mph               | 0mph         |
 | Nissan    | Rogue 2019<sup>2</sup>        | Propilot          | Stock            | 0mph               | 0mph         |
 | Nissan    | X-Trail 2017<sup>2</sup>      | Propilot          | Stock            | 0mph               | 0mph         |
+| Subaru    | Ascent 2019                   | EyeSight          | Stock            | 0mph               | 0mph         |
 | Subaru    | Crosstrek 2018-19             | EyeSight          | Stock            | 0mph               | 0mph         |
 | Subaru    | Forester 2019                 | EyeSight          | Stock            | 0mph               | 0mph         |
 | Subaru    | Impreza 2017-19               | EyeSight          | Stock            | 0mph               | 0mph         |
@@ -330,7 +331,7 @@ NO WARRANTY EXPRESSED OR IMPLIED.**
 
 <img src="https://d1qb2nb5cznatu.cloudfront.net/startups/i/1061157-bc7e9bf3b246ece7322e6ffe653f6af8-medium_jpg.jpg?buster=1458363130" width="75"></img> <img src="https://cdn-images-1.medium.com/max/1600/1*C87EjxGeMPrkTuVRVWVg4w.png" width="225"></img>
 
-[![openpilot tests](https://github.com/commaai/openpilot/workflows/openpilot%20tests/badge.svg)](https://github.com/commaai/openpilot/actions)
+[![openpilot tests](https://github.com/commaai/openpilot/workflows/openpilot%20tests/badge.svg?event=push)](https://github.com/commaai/openpilot/actions)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/commaai/openpilot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/commaai/openpilot/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/commaai/openpilot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/commaai/openpilot/context:python)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/commaai/openpilot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/commaai/openpilot/context:cpp)

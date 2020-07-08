@@ -372,6 +372,7 @@ struct HealthData {
     interruptRateTim1 @16;
     interruptRateTim3 @17;
     registerDivergent @18;
+    interruptRateKlineInit @19;
     # Update max fault type in boardd when adding faults
   }
 
@@ -1890,6 +1891,7 @@ struct DriverState {
   irPwrDEPRECATED @10 :Float32;
   faceOrientationStd @11 :List(Float32);
   facePositionStd @12 :List(Float32);
+  sgProb @13 :Float32;
 }
 
 struct DMonitoringState {
