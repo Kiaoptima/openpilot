@@ -121,7 +121,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.7
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
-      ret.minSteerSpeed = 48 * CV.KPH_TO_MS
+      ret.minSteerSpeed = 47 * CV.KPH_TO_MS
     elif candidate == CAR.KIA_STINGER:
       ret.mass = 1825. + STD_CARGO_KG
       ret.wheelbase = 2.78
@@ -236,7 +236,7 @@ class CarInterface(CarInterfaceBase):
       events.add(EventName.brakeUnavailable)
 
     # low speed steer alert hysteresis logic (only for cars with steer cut off above 10 m/s)
-    if ret.vEgo < (self.CP.minSteerSpeed + 2.) and self.CP.minSteerSpeed > 10.:
+    if ret.vEgo < (self.CP.minSteerSpeed + 2.) and self.CP.minSteerSpeed > 0.:
       self.low_speed_alert = True
     if ret.vEgo > (self.CP.minSteerSpeed + 4.):
       self.low_speed_alert = False
