@@ -181,7 +181,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
   unit = "km/h" if metric else "mph"
   return Alert(
     "TAKE CONTROL",
-    "Steer Unavailable Below 50 km/h",
+    "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
 
