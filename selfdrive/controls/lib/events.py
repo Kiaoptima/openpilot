@@ -179,7 +179,7 @@ def below_steer_speed_alert(CP, sm, metric):
   unit = "km/h" if metric else "mph"
   return Alert(
     "TAKE CONTROL",
-    "Steer Unavailable Below %d %s" % (speed, unit),
+    "Steer Unavailable Below 50 km/h",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.none, AudibleAlert.none, 0., 0.4, .3)
 
