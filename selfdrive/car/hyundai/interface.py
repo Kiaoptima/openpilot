@@ -114,14 +114,18 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
     elif candidate in [CAR.KIA_OPTIMA, CAR.KIA_OPTIMA_HEV]:
-      ret.lateralTuning.pid.kfBP = [0.]
-      ret.lateralTuning.pid.kf = 0.00005
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 3.0
+      ret.lateralTuning.indi.outerLoopGain = 2.0
+      ret.lateralTuning.indi.timeConstant = 1.0
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.5
+      ret.steerActuatorDelay = 0.08
+      ret.steerLimitTimer = 0.4
+      tire_stiffness_factor = 0.7
+      ret.steerRateCost = 1.0
       ret.mass = 1520. + STD_CARGO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 15.75
-      tire_stiffness_factor = 0.7
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
     elif candidate == CAR.KIA_STINGER:
       ret.mass = 1825. + STD_CARGO_KG
       ret.wheelbase = 2.78
