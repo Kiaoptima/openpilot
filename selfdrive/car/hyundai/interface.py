@@ -115,12 +115,12 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 16.5
     elif candidate in [CAR.KIA_OPTIMA, CAR.KIA_OPTIMA_HEV]:
       ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGain = 3.5
-      ret.lateralTuning.indi.outerLoopGain = 2.5
+      ret.lateralTuning.indi.innerLoopGain = 5.0
+      ret.lateralTuning.indi.outerLoopGain = 7.0
       ret.lateralTuning.indi.timeConstant = 1.0
       ret.lateralTuning.indi.actuatorEffectiveness = 1.5
-      ret.steerActuatorDelay = 0.1
-      ret.steerLimitTimer = 0.6
+      ret.steerActuatorDelay = 0.06
+      ret.steerLimitTimer = 0.2
       tire_stiffness_factor = 0.7
       ret.steerRateCost = 1.0
       ret.mass = 1520. + STD_CARGO_KG
