@@ -118,11 +118,11 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kf = 0.00005
       ret.mass = 1520. + STD_CARGO_KG
       ret.wheelbase = 2.80
-      ret.steerRatio = 14.95
+      ret.steerRatio = 13.75
       tire_stiffness_factor = 0.7
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
-      ret.minSteerSpeed = 40 * CV.KPH_TO_MS
+      ret.minSteerSpeed = 0 * CV.KPH_TO_MS
     elif candidate == CAR.KIA_STINGER:
       ret.mass = 1825. + STD_CARGO_KG
       ret.wheelbase = 2.78
