@@ -115,7 +115,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 16.5
     elif candidate in [CAR.KIA_OPTIMA, CAR.KIA_OPTIMA_HEV]:
       ret.lateralTuning.pid.kfBP = [0.]
-      ret.lateralTuning.pid.kf = 0.00005
+      ret.lateralTuning.pid.kf = 0.00004
       ret.mass = 1520. + STD_CARGO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 14.95
