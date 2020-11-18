@@ -28,9 +28,9 @@ class CarInterface(CarInterfaceBase):
     # Most Hyundai car ports are community features for now
     ret.communityFeature = candidate not in [CAR.SONATA]
 
-    ret.steerActuatorDelay = 0.25  # Default delay
-    ret.steerRateCost = 0.7 # 0.4 Default value
-    ret.steerLimitTimer = 0.8
+    ret.steerActuatorDelay = 0.2  # Default delay
+    ret.steerRateCost = 0.4 # 0.4 Default value
+    ret.steerLimitTimer = 0.2
     tire_stiffness_factor = 1.
 
     #Long tuning Params -  make individual params for cars, baseline Hyundai genesis
@@ -114,7 +114,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
     elif candidate in [CAR.KIA_OPTIMA, CAR.KIA_OPTIMA_HEV]:
-      ret.lateralTuning.pid.kf = 0.00004
+      ret.lateralTuning.pid.kf = 0.00005
       ret.mass = 1520. + STD_CARGO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 14.75
