@@ -15,7 +15,7 @@ LaneChangeDirection = log.PathPlan.LaneChangeDirection
 
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
-LANE_CHANGE_SPEED_MIN = 35 * CV.MPH_TO_MS
+LANE_CHANGE_SPEED_MIN = 45 * CV.MPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
 
 DESIRES = {
@@ -113,7 +113,7 @@ class PathPlanner():
       torque_applied = sm['carState'].steeringPressed and \
                        ((sm['carState'].steeringTorque > 0 and self.lane_change_direction == LaneChangeDirection.left) or
                         (sm['carState'].steeringTorque < 0 and self.lane_change_direction == LaneChangeDirection.right)) or \
-                        CP.autoLcaEnabled and 3.25 > self.auto_lane_change_timer > 2. # 3.25 and 2. Default
+                        CP.autoLcaEnabled and 3.25 > self.auto_lane_change_timer > 3.
 
       blindspot_detected = ((sm['carState'].leftBlindspot and self.lane_change_direction == LaneChangeDirection.left) or
                             (sm['carState'].rightBlindspot and self.lane_change_direction == LaneChangeDirection.right))
@@ -162,7 +162,7 @@ class PathPlanner():
     if self.lane_change_state == LaneChangeState.off:
       self.auto_lane_change_timer = 0.0
       self.prev_torque_applied = False
-    elif self.auto_lane_change_timer < 3.25: # stop afer 3 sec resume from 10 when torque applied. 3.25 Default
+    elif self.auto_lane_change_timer < 3.25: # stop afer 3 sec resume from 10 when torque applied
       self.auto_lane_change_timer += DT_MDL
 
     self.prev_one_blinker = one_blinker
@@ -231,7 +231,7 @@ class PathPlanner():
     plan_send.pathPlan.desire = desire
     plan_send.pathPlan.laneChangeState = self.lane_change_state
     plan_send.pathPlan.laneChangeDirection = self.lane_change_direction
-    plan_send.pathPlan.autoLaneChangeTimer = 3 - int(self.auto_lane_change_timer) # Default 3
+    plan_send.pathPlan.autoLaneChangeTimer = 3 - int(self.auto_lane_change_timer)
 
     pm.send('pathPlan', plan_send)
 
