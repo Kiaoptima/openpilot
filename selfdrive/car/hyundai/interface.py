@@ -286,7 +286,7 @@ class CarInterface(CarInterfaceBase):
     if not self.CP.openpilotLongitudinalControl:
       ret.cruiseState.enabled = ret.cruiseState.available
     # some Optima only has blinker flash signal
-    if self.CP.carFingerprint == CAR.STINGER:
+    if self.CP.carFingerprint == CAR.OPTIMA:
       ret.leftBlinker = bool(self.CS.left_blinker_flash or self.CS.prev_left_blinker and self.CC.turning_signal_timer)
       ret.rightBlinker = bool(self.CS.right_blinker_flash or self.CS.prev_right_blinker and self.CC.turning_signal_timer)
 
