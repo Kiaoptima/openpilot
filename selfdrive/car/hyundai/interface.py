@@ -165,7 +165,7 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV]:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
-      ret.steerRatio = 13.75
+      ret.steerRatio = 15.75
       tire_stiffness_factor = 0.5
       ret.lateralTuning.pid.kf = 0.00005
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
