@@ -180,14 +180,14 @@ ALERTS = [
 
   Alert(
       "startup",
-      "Be ready to take over at any time",
+      "Enjoy a chill drive with Openpilot",
       "Always keep hands on wheel and eyes on road",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
 
   Alert(
       "startupMaster",
-      "WARNING: This branch is not tested",
+      "Enjoy a chill drive with Openpilot",
       "Always keep hands on wheel and eyes on road",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
