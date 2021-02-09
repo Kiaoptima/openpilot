@@ -41,8 +41,8 @@ NetworkType = log.ThermalData.NetworkType
 NetworkStrength = log.ThermalData.NetworkStrength
 CURRENT_TAU = 15.   # 15s time constant
 CPU_TEMP_TAU = 5.   # 5s time constant
-DAYS_NO_CONNECTIVITY_MAX = 14  # do not allow to engage after a week without internet
-DAYS_NO_CONNECTIVITY_PROMPT = 7  # send an offroad prompt after 4 days with no internet
+DAYS_NO_CONNECTIVITY_MAX = 365  # do not allow to engage after a week without internet
+DAYS_NO_CONNECTIVITY_PROMPT = 350  # send an offroad prompt after 4 days with no internet
 DISCONNECT_TIMEOUT = 5.  # wait 5 seconds before going offroad after disconnect so you get an alert
 
 prev_offroad_states: Dict[str, Tuple[bool, Optional[str]]] = {}
@@ -130,7 +130,7 @@ _TEMP_THRS_H = [45., 55., 70., 10000]
 # temp thresholds to control fan speed - low hysteresis
 _TEMP_THRS_L = [37.5, 45.5, 55.5, 10000]
 # fan speed options
-_FAN_SPEEDS = [0, 32768, 32768, 65535]
+_FAN_SPEEDS = [0, 0, 16384, 32768]
 # max fan speed only allowed if battery is hot
 _BAT_TEMP_THERSHOLD = 45.
 if NoctuaMode:
