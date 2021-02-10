@@ -100,7 +100,7 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.KIA_OPTIMA, CAR.KIA_OPTIMA_HEV]:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
-      ret.steerRatio = 13.70 * 1.15
+      ret.steerRatio = 13.75 * 1.15
       tire_stiffness_factor = 0.5
     elif candidate == CAR.KIA_STINGER:
       ret.mass = 1825. + STD_CARGO_KG
