@@ -60,7 +60,7 @@ class PathPlanner():
     self.lane_change_ll_prob = 1.0
     self.prev_one_blinker = False
     self.auto_lane_change_timer = 0.0
-    self.prev_torque_applied = False
+    self.prev_torque_applied = False # Default False
 
   def setup_mpc(self):
     self.libmpc = libmpc_py.libmpc
