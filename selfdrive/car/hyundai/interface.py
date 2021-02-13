@@ -30,9 +30,9 @@ class CarInterface(CarInterfaceBase):
     # Hyundai port is a community feature for now
     ret.communityFeature = True
 
-    ret.steerActuatorDelay = 0.2  # 0.1 Default delay
-    ret.steerRateCost = 0.5
-    ret.steerLimitTimer = 0.8
+    ret.steerActuatorDelay = 0.15  # 0.1 Default delay
+    ret.steerRateCost = 0.45 # Default 0.5
+    ret.steerLimitTimer = 0.8 # Default 0.8
     tire_stiffness_factor = 1.
 
     if candidate in [CAR.SANTA_FE, CAR.SANTA_FE_1]:
