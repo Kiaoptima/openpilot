@@ -152,7 +152,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
     elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV]:
-      ret.lateralTuning.pid.kf = 0.00004 # 0.00005 Default
+      ret.lateralTuning.pid.kf = 0.00005 # 0.00005 Default
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 15.75 # 13.75 default
