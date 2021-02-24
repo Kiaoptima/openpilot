@@ -229,7 +229,8 @@ function launch {
   fi
 
   # write tmux scrollback to a file
-  tmux capture-pane -pq -S-1000 > /tmp/launch_log
+#  tmux capture-pane -pq -S-1000 > /tmp/launch_log
+  tmux bind-key S command-prompt -p 'Save history to filename:' -I '/tmp/launch_log' 'capture-pane -S -32768 ; save-buffer %1 ; delete-buffer'
 
   # start manager
   cd selfdrive
