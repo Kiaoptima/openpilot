@@ -1,5 +1,7 @@
+import os
+
 from cereal import car
-from common.numpy_fast import clip
+from common.numpy_fast import clip, interp
 from selfdrive.car import apply_toyota_steer_torque_limits, create_gas_command, make_can_msg
 from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_command, \
                                            create_accel_command, create_acc_cancel_command, \
@@ -8,6 +10,18 @@ from selfdrive.car.toyota.values import Ecu, CAR, STATIC_MSGS, NO_STOP_TIMER_CAR
 from opendbc.can.packer import CANPacker
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
+
+
+def coast_accel(speed):  # given a speed, output coasting acceleration
+  points = [[0, .504], [1.697, .266],
+            [2.839, -.187], [3.413, -.233],
+            [MIN_ACC_SPEED, -.145]]
+  return interp(speed, *zip(*points))
+
+
+def compute_gb_pedal(desired_accel, speed):
+  _c1, _c2, _c3, _c4 = [0.04412016647510183, 0.018224465923095633, 0.09983653162564889, 0.08837909527049172]
+  return (desired_accel * _c1 + (_c4 * (speed * _c2 + 1))) * (speed * _c3 + 1)
 
 
 def accel_hysteresis(accel, accel_steady, enabled):
@@ -49,14 +63,22 @@ class CarController():
     # *** compute control surfaces ***
 
     # gas and brake
-    if CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED:
+    apply_accel = actuators.gas - actuators.brake
+
+    # The following applies gas IF pedal, under 19 mph, and desired accel is greater than the coast accel at that speed
+    if CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED and apply_accel * CarControllerParams.ACCEL_SCALE > coast_accel(CS.out.vEgo):
       # send only negative accel if interceptor is detected. otherwise, send the regular value
       # +0.06 offset to reduce ABS pump usage when OP is engaged
-      apply_accel = 0.06 - actuators.brake
-      apply_gas = clip(actuators.gas, 0., 1.)
+      apply_accel = 0.06
+      if os.path.exists('/data/use_brake'):
+        apply_accel -= actuators.brake
+      if actuators.brake > 0:
+        with open('/data/actuators.brake', 'a') as f:
+          f.write("op wants to brake, but we're above coast accel? wut? ({})\n".format(actuators.brake))
+      apply_gas = clip(compute_gb_pedal(actuators.gas, CS.out.vEgo), 0., 1.)
     else:
       apply_accel = actuators.gas - actuators.brake
-      apply_gas = 0.
+      apply_gas = 0.  # continue to send pedal msg, but don't cmd any gas
 
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady, enabled)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
