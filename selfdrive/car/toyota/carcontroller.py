@@ -63,17 +63,15 @@ class CarController():
     # *** compute control surfaces ***
 
     # gas and brake
+    apply_gas = 0.
     apply_accel = actuators.gas - actuators.brake
 
-    # The following applies gas IF pedal, under 19 mph, and desired accel is greater than the coast accel at that speed
-    if CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED and apply_accel * CarControllerParams.ACCEL_SCALE > coast_accel(CS.out.vEgo):
-      # send only negative accel if interceptor is detected. otherwise, send the regular value
+    # The following applies gas IF pedal, under 19 mph, enabled, and desired accel is greater than the coast accel at that speed
+    if (CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED and
+            enabled and apply_accel * CarControllerParams.ACCEL_SCALE > coast_accel(CS.out.vEgo)):
       # +0.06 offset to reduce ABS pump usage when OP is engaged
+      apply_gas = clip(compute_gb_pedal(apply_accel * CarControllerParams.ACCEL_SCALE, CS.out.vEgo), 0., 1.)  # give function accel, since accel can be negative but we want to apply gas (near 19 mph where coast accel is negative)
       apply_accel = 0.06
-      apply_gas = clip(compute_gb_pedal(apply_accel * CarControllerParams.ACCEL_SCALE, CS.out.vEgo), 0., 1.)
-    else:
-      apply_accel = actuators.gas - actuators.brake
-      apply_gas = 0.  # continue to send pedal msg, but don't cmd any gas
 
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady, enabled)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
