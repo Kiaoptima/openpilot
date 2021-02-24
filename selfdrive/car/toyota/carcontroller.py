@@ -4,7 +4,7 @@ from selfdrive.car import apply_toyota_steer_torque_limits, create_gas_command, 
 from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_command, \
                                            create_accel_command, create_acc_cancel_command, \
                                            create_fcw_command
-from selfdrive.car.toyota.values import Ecu, CAR, STATIC_MSGS, NO_STOP_TIMER_CAR, CarControllerParams
+from selfdrive.car.toyota.values import Ecu, CAR, STATIC_MSGS, NO_STOP_TIMER_CAR, CarControllerParams, MIN_ACC_SPEED
 from opendbc.can.packer import CANPacker
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
@@ -49,15 +49,14 @@ class CarController():
     # *** compute control surfaces ***
 
     # gas and brake
-
-    apply_gas = clip(actuators.gas, 0., 1.)
-
-    if CS.CP.enableGasInterceptor:
+    if CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED:
       # send only negative accel if interceptor is detected. otherwise, send the regular value
       # +0.06 offset to reduce ABS pump usage when OP is engaged
       apply_accel = 0.06 - actuators.brake
+      apply_gas = clip(actuators.gas, 0., 1.)
     else:
       apply_accel = actuators.gas - actuators.brake
+      apply_gas = 0.
 
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady, enabled)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
