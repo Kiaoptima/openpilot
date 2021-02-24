@@ -141,12 +141,9 @@ if __name__ == "__main__" and not PREBUILT:
   build()
 
 import cereal.messaging as messaging
-
 from common.params import Params
 import selfdrive.crash as crash
 from selfdrive.registration import register
-from selfdrive.version import version, dirty
-from selfdrive.loggerd.config import ROOT
 from selfdrive.launcher import launcher
 from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
 
@@ -192,13 +189,15 @@ def get_running():
 # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
 unkillable_processes = ['camerad']
 
-# processes to end with SIGINT instead of SIGTERM
-interrupt_processes: List[str] = []
-
 # processes to end with SIGKILL instead of SIGTERM
-kill_processes = ['sensord']
+kill_processes = []
+if EON:
+  kill_processes += [
+    'sensord',
+  ]
 
 persistent_processes = [
+  'pandad',
   'thermald',
   'logmessaged',
   'ui',
@@ -209,8 +208,11 @@ persistent_processes = [
 if not PC:
   persistent_processes += [
     'updated',
-    'logcatd',
     'tombstoned',
+  ]
+
+if EON:
+  persistent_processes += [
     'sensord',
   ]
 
@@ -226,6 +228,7 @@ car_started_processes = [
   'proclogd',
   'locationd',
   'clocksd',
+  'logcatd',
 ]
 
 driver_view_processes = [
@@ -383,6 +386,8 @@ def send_managed_process_signal(name, sig):
 # ****************** run loop ******************
 
 def manager_init():
+  os.umask(0)  # Make sure we can create files with 777 permissions
+
   # Create folders needed for msgq
   try:
     os.mkdir("/dev/shm")
@@ -406,12 +411,6 @@ def manager_init():
   crash.bind_user(id=dongle_id)
   crash.bind_extra(version=version, dirty=dirty, is_eon=True)
 
-  os.umask(0)
-  try:
-    os.mkdir(ROOT, 0o777)
-  except OSError:
-    pass
-
   # ensure shared libraries are readable by apks
   if EON:
     os.chmod(BASEDIR, 0o755)
@@ -434,10 +433,10 @@ def manager_thread():
     persistent_processes.remove( 'deleter' )
 
     persistent_processes.remove( 'updated' )
-    persistent_processes.remove( 'logcatd' )
     persistent_processes.remove( 'tombstoned' )
 
     car_started_processes.remove( 'loggerd' )
+    car_started_processes.remove( 'logcatd' )
   else:
   # save boot log
     subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
