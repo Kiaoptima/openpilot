@@ -19,6 +19,7 @@ from common.basedir import BASEDIR
 from common.spinner import Spinner
 from common.text_window import TextWindow
 from selfdrive.hardware import HARDWARE, EON, PC
+from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
 from selfdrive.swaglog import cloudlog, add_logentries_handler
 from selfdrive.version import version, dirty
 
@@ -145,7 +146,6 @@ from common.params import Params
 import selfdrive.crash as crash
 from selfdrive.registration import register
 from selfdrive.launcher import launcher
-from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
 
 # comment out anything you don't want to run
 managed_processes = {
@@ -519,7 +519,7 @@ def manager_prepare():
 
   for i, p in enumerate(managed_processes):
     perc = (100.0 - total) + total * (i + 1) / len(managed_processes)
-    spinner.update(str(int(perc)))
+    spinner.update_progress(perc, 100.)
     prepare_managed_process(p)
 
 def main():
