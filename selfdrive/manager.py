@@ -96,7 +96,7 @@ def build():
         prefix = b'progress: '
         if line.startswith(prefix):
           i = int(line[len(prefix):])
-          spinner.update("%d" % (70.0 * (i / TOTAL_SCONS_NODES)))
+          spinner.update_progress(MAX_BUILD_PROGRESS * min(1., i / TOTAL_SCONS_NODES), 100.)
         elif len(line):
           compile_output.append(line)
           print(line.decode('utf8', 'replace'))
@@ -516,8 +516,7 @@ def manager_prepare():
   # build all processes
   os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-  # Spinner has to start from 70 here
-  total = 100.0 if PREBUILT else 30.0
+  total = 100.0 - (0 if PREBUILT else MAX_BUILD_PROGRESS)
 
   for i, p in enumerate(managed_processes):
     perc = (100.0 - total) + total * (i + 1) / len(managed_processes)
