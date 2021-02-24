@@ -30,8 +30,8 @@ class CarInterface(CarInterfaceBase):
     # Hyundai port is a community feature for now
     ret.communityFeature = True
 
-    ret.steerActuatorDelay = 0.2  # 0.1 Default delay
-    ret.steerRateCost = 0.5 # Default 0.5
+    ret.steerActuatorDelay = 0.15  # 0.1 Default delay
+    ret.steerRateCost = 0.45 # Default 0.5
     ret.steerLimitTimer = 0.8 # Default 0.8
     tire_stiffness_factor = 1.
 
@@ -105,7 +105,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75
-      tire_stiffness_factor = 0.7
+      tire_stiffness_factor = 0.8
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
     elif candidate == CAR.KIA_STINGER:
@@ -270,9 +270,9 @@ class CarInterface(CarInterfaceBase):
     if not self.CP.openpilotLongitudinalControl:
       ret.cruiseState.enabled = ret.cruiseState.available
     # some Optima only has blinker flash signal
-    if self.CP.carFingerprint == CAR.KIA_OPTIMA:
-      ret.leftBlinker = bool(self.CS.left_blinker_flash or self.CS.prev_left_blinker and self.CC.turning_signal_timer)
-      ret.rightBlinker = bool(self.CS.right_blinker_flash or self.CS.prev_right_blinker and self.CC.turning_signal_timer)
+    #if self.CP.carFingerprint == CAR.KIA_OPTIMA:
+    #  ret.leftBlinker = bool(self.CS.left_blinker_flash or self.CS.prev_left_blinker and self.CC.turning_signal_timer)
+    #  ret.rightBlinker = bool(self.CS.right_blinker_flash or self.CS.prev_right_blinker and self.CC.turning_signal_timer)
 
     # turning indicator alert logic
     if (ret.leftBlinker or ret.rightBlinker or self.CC.turning_signal_timer) and ret.vEgo < LANE_CHANGE_SPEED_MIN - 1.2:
