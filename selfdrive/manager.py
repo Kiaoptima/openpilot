@@ -20,6 +20,7 @@ from common.spinner import Spinner
 from common.text_window import TextWindow
 from selfdrive.hardware import HARDWARE, EON, PC
 from selfdrive.swaglog import cloudlog, add_logentries_handler
+from selfdrive.version import version, dirty
 
 os.environ['BASEDIR'] = BASEDIR
 sys.path.append(os.path.join(BASEDIR, "pyextra"))
