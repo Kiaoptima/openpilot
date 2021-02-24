@@ -70,12 +70,7 @@ class CarController():
       # send only negative accel if interceptor is detected. otherwise, send the regular value
       # +0.06 offset to reduce ABS pump usage when OP is engaged
       apply_accel = 0.06
-      if os.path.exists('/data/use_brake'):
-        apply_accel -= actuators.brake
-      if actuators.brake > 0:
-        with open('/data/actuators.brake', 'a') as f:
-          f.write("op wants to brake, but we're above coast accel? wut? ({})\n".format(actuators.brake))
-      apply_gas = clip(compute_gb_pedal(actuators.gas, CS.out.vEgo), 0., 1.)
+      apply_gas = clip(compute_gb_pedal(apply_accel * CarControllerParams.ACCEL_SCALE, CS.out.vEgo), 0., 1.)
     else:
       apply_accel = actuators.gas - actuators.brake
       apply_gas = 0.  # continue to send pedal msg, but don't cmd any gas
