@@ -25,9 +25,9 @@ os.environ['BASEDIR'] = BASEDIR
 sys.path.append(os.path.join(BASEDIR, "pyextra"))
 
 TOTAL_SCONS_NODES = 1225
+MAX_BUILD_PROGRESS = 70
 WEBCAM = os.getenv("WEBCAM") is not None
 PREBUILT = os.path.exists(os.path.join(BASEDIR, 'prebuilt'))
-
 
 def unblock_stdout():
   # get a non-blocking stdout
@@ -61,26 +61,25 @@ def unblock_stdout():
     exit_status = os.wait()[1] >> 8
     os._exit(exit_status)
 
-
 if __name__ == "__main__":
   unblock_stdout()
 
-
-# Run scons
+# Start spinner
 spinner = Spinner()
-spinner.update("0")
+spinner.update_progress(0, 100)
 if __name__ != "__main__":
   spinner.close()
 
 def build():
-  for retry in [True, False]:
-    # run scons
-    env = os.environ.copy()
-    env['SCONS_PROGRESS'] = "1"
-    env['SCONS_CACHE'] = "1"
 
-    nproc = os.cpu_count()
-    j_flag = "" if nproc is None else f"-j{nproc - 1}"
+  # run scons
+  env = os.environ.copy()
+  env['SCONS_PROGRESS'] = "1"
+  env['SCONS_CACHE'] = "1"
+  nproc = os.cpu_count()
+  j_flag = "" if nproc is None else f"-j{nproc - 1}"
+    
+  for retry in [True, False]:    
     scons = subprocess.Popen(["scons", j_flag], cwd=BASEDIR, env=env, stderr=subprocess.PIPE)
 
     compile_output = []
@@ -108,7 +107,7 @@ def build():
       r = scons.stderr.read().split(b'\n')   # type: ignore
       compile_output += r
 
-      if retry:
+      if retry and (not dirty):
         if not os.getenv("CI"):
           print("scons build failed, cleaning in")
           for i in range(3, -1, -1):
@@ -149,7 +148,6 @@ from selfdrive.version import version, dirty
 from selfdrive.loggerd.config import ROOT
 from selfdrive.launcher import launcher
 from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
-
 
 # comment out anything you don't want to run
 managed_processes = {
@@ -248,7 +246,6 @@ if EON:
     'rtshield',
   ]
 
-
 def register_managed_process(name, desc, car_started=False):
   global managed_processes, car_started_processes, persistent_processes
   managed_processes[name] = desc
@@ -323,14 +320,12 @@ def prepare_managed_process(p, build=False):
       subprocess.check_call(["scons", "-u", "-c", "."], cwd=os.path.join(BASEDIR, proc[0]))
       subprocess.check_call(["scons", "-u", "-j4", "."], cwd=os.path.join(BASEDIR, proc[0]))
 
-
 def join_process(process, timeout):
   # Process().join(timeout) will hang due to a python 3 bug: https://bugs.python.org/issue28382
   # We have to poll the exitcode instead
   t = time.time()
   while time.time() - t < timeout and process.exitcode is None:
     time.sleep(0.001)
-
 
 def kill_managed_process(name):
   if name not in running or name not in managed_processes:
@@ -365,7 +360,6 @@ def kill_managed_process(name):
   cloudlog.info("%s is dead with %d" % (name, running[name].exitcode))
   del running[name]
 
-
 def cleanup_all_processes(signal, frame):
   cloudlog.info("caught ctrl-c %s %s" % (signal, frame))
 
@@ -384,7 +378,6 @@ def send_managed_process_signal(name, sig):
 
   cloudlog.info(f"sending signal {sig} to {name}")
   os.kill(running[name].pid, sig)
-
 
 # ****************** run loop ******************
 
@@ -591,7 +584,6 @@ def main():
   if params.get("DoUninstall", encoding='utf8') == "1":
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
-
 
 if __name__ == "__main__":
   try:
