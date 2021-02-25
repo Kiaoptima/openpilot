@@ -232,16 +232,16 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startup: {
     ET.PERMANENT: Alert(
-      "오픈파일럿 사용준비 완료",
-      "항상 핸들을 잡고 도로를 주시하세요",
+      "Enjoy a chill drive with Openpilot",
+      "Always keep hands on wheel and eyes on road",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.chimeEngage2, 1., 0., 10.),
   },
 
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
-      "오픈파일럿 사용준비 완료",
-      "항상 핸들을 잡고 도로를 주시하세요",
+      "Enjoy a chill drive with Openpilot",
+      "Always keep hands on wheel and eyes on road",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.chimeEngage2, 1., 0., 10.),
   },
