@@ -148,7 +148,7 @@ class Alert:
 class NoEntryAlert(Alert):
   def __init__(self, alert_text_2, audible_alert=AudibleAlert.chimeError, duration_sound=.4,
                visual_alert=VisualAlert.none, duration_hud_alert=2.):
-    super().__init__("오픈파일럿 사용불가", alert_text_2, AlertStatus.normal,
+    super().__init__("Openpilot Unavailable", alert_text_2, AlertStatus.normal,
                      AlertSize.mid, Priority.LOW, visual_alert,
                      audible_alert, duration_sound, duration_hud_alert, 3.)
 
