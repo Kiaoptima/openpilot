@@ -382,7 +382,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "TOUCH STEERING WHEEL: No Face Detected",
       "",
       AlertStatus.normal, AlertSize.small,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeDing, .0, .1, .1, alert_rate=0.75),
+      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeDing, .1, .1, .1, alert_rate=0.75),
   },
 
   EventName.promptDriverUnresponsive: {
@@ -599,7 +599,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.wrongGear: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("Gear not D"),
+    ET.NO_ENTRY: NoEntryAlert("Gear not D",
                                 audible_alert=AudibleAlert.chimeGeard, duration_sound=3.),
   },
 
@@ -612,7 +612,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.calibrationIncomplete: {
     ET.PERMANENT: calibration_incomplete_alert,
     ET.SOFT_DISABLE: SoftDisableAlert("Calibration in Progress"),
-    ET.NO_ENTRY: NoEntryAlert("Calibration in Progress"),
+    ET.NO_ENTRY: NoEntryAlert("Calibration in Progress",
                                 audible_alert=AudibleAlert.chimeCalibration2, duration_sound=2.),
   },
 
@@ -623,7 +623,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.seatbeltNotLatched: {
     ET.SOFT_DISABLE: SoftDisableAlert("Seatbelt Unlatched"),
-    ET.NO_ENTRY: NoEntryAlert("Seatbelt Unlatched"),
+    ET.NO_ENTRY: NoEntryAlert("Seatbelt Unlatched",
                                   audible_alert=AudibleAlert.chimeSeatbelt, duration_sound=3.),
   },
 
