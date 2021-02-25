@@ -95,6 +95,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2860. * CV.LB_TO_KG + STD_CARGO_KG  # mean between normal and hybrid
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.08], [0.001]]
       ret.lateralTuning.pid.kf = 0.00006908923778520113 * .9   # full torque for 20 deg at 80mph means 0.00007818594
+      ret.minSpeedCan = 0.2 * CV.KPH_TO_MS
 
     elif candidate == CAR.LEXUS_RX:
       stop_and_go = True
