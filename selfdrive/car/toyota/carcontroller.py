@@ -64,19 +64,12 @@ class CarController():
 
     # gas and brake
     apply_gas = 0.
-    apply_accel = actuators.gas - actuators.brake
-
-    # The following applies gas IF pedal, under 19 mph, enabled, and desired accel is greater than the coast accel at that speed
-    if (CS.CP.enableGasInterceptor and CS.out.vEgo < MIN_ACC_SPEED and
-            enabled and apply_accel * CarControllerParams.ACCEL_SCALE > coast_accel(CS.out.vEgo)):
-      # +0.06 offset to reduce ABS pump usage when OP is engaged
-      apply_gas = clip(compute_gb_pedal(apply_accel * CarControllerParams.ACCEL_SCALE, CS.out.vEgo), 0., 1.)  # give function accel, since accel can be negative but we want to apply gas (near 19 mph where coast accel is negative)
-      apply_accel = 0.06
-
-    if apply_accel <= 0 and CS.CP.enableGasInterceptor:
-      apply_accel = 0.06 - actuators.brake
-    apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady, enabled)
+    apply_accel, self.accel_steady = accel_hysteresis(actuators.gas - actuators.brake, self.accel_steady, enabled)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
+
+    if CS.CP.enableGasInterceptor and enabled and CS.out.vEgo < MIN_ACC_SPEED and apply_accel > coast_accel(CS.out.vEgo):
+      # converts desired acceleration to gas percentage for pedal
+      apply_gas = clip(compute_gb_pedal(apply_accel, CS.out.vEgo), 0., 1.)
 
     # steer torque
     new_steer = int(round(actuators.steer * CarControllerParams.STEER_MAX))
