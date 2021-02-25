@@ -499,7 +499,6 @@ def manager_thread():
     # check the status of all processes, did any of them die?
     running_list = ["%s%s\u001b[0m" % ("\u001b[32m" if running[p].is_alive() else "\u001b[31m", p) for p in running]
     cloudlog.debug(' '.join(running_list))
-    print('1'+1)
 
     # send managerState
     states = []
