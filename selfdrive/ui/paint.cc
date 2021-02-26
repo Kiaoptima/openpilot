@@ -595,7 +595,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
         val_color = COLOR_RED_ALPHA(200);
       }
     snprintf(val_str, sizeof(val_str), "%.0f℃", (round((scene->cpuTempAvg))));
-    bb_h += bb_ui_draw_measure(s, val_str, "CPU 온도", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "CPU TEMP", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -616,7 +616,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
-    bb_h += bb_ui_draw_measure(s, val_str, "앞차 거리차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "Street car", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -637,7 +637,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
-    bb_h +=bb_ui_draw_measure(s, val_str, "앞차 속도차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h +=bb_ui_draw_measure(s, val_str, "Speed car", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -655,7 +655,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       }
       // steering is in degree
       snprintf(val_str, sizeof(val_str), "%.1f˚",(s->scene.angleSteers));
-    bb_h += bb_ui_draw_measure(s, val_str, "핸들 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "Steer", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -677,7 +677,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
-    bb_h += bb_ui_draw_measure(s, val_str, "OP 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "OP steer", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
