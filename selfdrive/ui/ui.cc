@@ -296,18 +296,18 @@ void ui_update(UIState *s) {
   if (s->started && !s->scene.frontview && ((s->sm)->frame - s->started_frame) > 5*UI_FREQ) {
     if ((s->sm)->rcv_frame("controlsState") < s->started_frame) {
       // car is started, but controlsState hasn't been seen at all
-      s->scene.alert_text1 = "오픈파일럿을 사용할수없습니다";
-      s->scene.alert_text2 = "컨트롤 시작을 기다리는중...";
+      s->scene.alert_text1 = "openpilot Unavailable";
+      s->scene.alert_text2 = "Waiting for controls to start";
       s->scene.alert_size = cereal::ControlsState::AlertSize::MID;
     } else if (((s->sm)->frame - (s->sm)->rcv_frame("controlsState")) > 5*UI_FREQ) {
       // car is started, but controls is lagging or died
-      if (s->scene.alert_text2 != "컨트롤이 응답하지않습니다" &&
-          s->scene.alert_text1 != "카메라 오작동") {
+      if (s->scene.alert_text2 != "Controls Unresponsive" &&
+          s->scene.alert_text1 != "Camera malfunction") {
         s->sound->play(AudibleAlert::CHIME_WARNING_REPEAT);
         LOGE("Controls unresponsive");
       }
-      s->scene.alert_text1 = "즉시 핸들을 잡아주세요";
-      s->scene.alert_text2 = "컨트롤이 응답하지않습니다";
+      s->scene.alert_text1 = "TAKE CONTROL IMMEDIATELY";
+      s->scene.alert_text2 = "Controls Unresponsive";
       s->scene.alert_size = cereal::ControlsState::AlertSize::FULL;
       s->status = STATUS_ALERT;
     }
@@ -317,8 +317,8 @@ void ui_update(UIState *s) {
     const uint64_t since_started = (s->sm)->frame - s->started_frame;
     if ((frame_pkt > s->started_frame || since_started > 15*UI_FREQ) && frame_delayed > 5*UI_FREQ) {
       // controls is fine, but rear camera is lagging or died
-      s->scene.alert_text1 = "카메라 오작동";
-      s->scene.alert_text2 = "장치를 점검하세요";
+      s->scene.alert_text1 = "Camera malfunction";
+      s->scene.alert_text2 = "Check the device";
       s->scene.alert_size = cereal::ControlsState::AlertSize::FULL;
       s->status = STATUS_DISENGAGED;
       s->sound->stop();
