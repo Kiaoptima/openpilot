@@ -107,13 +107,10 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75
     elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV]:
-      ret.lateralTuning.pid.kf = 0.00005
       ret.mass = 1715. + STD_CARGO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75 * 1.05 # 13.75
       tire_stiffness_factor = 0.8
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
     elif candidate == CAR.SPORTAGE:
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
@@ -149,9 +146,9 @@ class CarInterface(CarInterfaceBase):
 
 # -----------------------------------------------------------------
 # -- pid --
-#    ret.lateralTuning.pid.kf = 0.00005
-#    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-#    ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
+    ret.lateralTuning.pid.kf = 0.00005
+    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+    ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
 # -----------------------------------------------------------------
 # -- indi --
 #    ret.lateralTuning.init('indi')
@@ -161,17 +158,17 @@ class CarInterface(CarInterfaceBase):
 #    ret.lateralTuning.indi.actuatorEffectiveness = 2.3
 # -----------------------------------------------------------------
 # -- lqr --
-    ret.lateralTuning.init('lqr')
+#    ret.lateralTuning.init('lqr')
 
-    ret.lateralTuning.lqr.scale = 1700.0
-    ret.lateralTuning.lqr.ki = 0.03
+#    ret.lateralTuning.lqr.scale = 1700.0
+#    ret.lateralTuning.lqr.ki = 0.03
 
-    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
-    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
-    ret.lateralTuning.lqr.c = [1., 0.]
-    ret.lateralTuning.lqr.k = [-105.0, 450.0]
-    ret.lateralTuning.lqr.l = [0.22, 0.318]
-    ret.lateralTuning.lqr.dcGain = 0.003
+#    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+#    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+#    ret.lateralTuning.lqr.c = [1., 0.]
+#    ret.lateralTuning.lqr.k = [-105.0, 450.0]
+#    ret.lateralTuning.lqr.l = [0.22, 0.318]
+#    ret.lateralTuning.lqr.dcGain = 0.003
 # -----------------------------------------------------------------
 
     ret.centerToFront = ret.wheelbase * 0.4
