@@ -222,7 +222,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.debugAlert: {
     ET.PERMANENT: Alert(
-      "디버그 경고",
+      "DEBUG ALERT",
       "",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .1, .1, .1),
@@ -477,8 +477,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.lkasButtonOff: {
     ET.WARNING: Alert(
-      "차량의 LKAS버튼을 확인해주세요",
-      "",
+      "TAKE CONTROL",
+      "Steer Disabled by LKAS button",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.HIGH, VisualAlert.steerRequired, AudibleAlert.none, 0., .1, .2),
   },
@@ -507,17 +507,17 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.brakeHold: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("브레이크 감지됨"),
+    ET.NO_ENTRY: NoEntryAlert("Brake Hold Active"),
   },
 
   EventName.parkBrake: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("주차 브레이크를 해제하세요"),
+    ET.NO_ENTRY: NoEntryAlert("Park Brake Engaged"),
   },
 
   EventName.pedalPressed: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("브레이크 감지됨",
+    ET.NO_ENTRY: NoEntryAlert("Pedal Pressed During Attempt",
                               visual_alert=VisualAlert.brakePressed),
   },
 
@@ -528,7 +528,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.wrongCruiseMode: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("어뎁티브크루즈를 활성화하세요"),
+    ET.NO_ENTRY: NoEntryAlert("Enable Adaptive Cruise"),
   },
 
   EventName.steerTempUnavailable: {
@@ -537,7 +537,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "Steering Temporarily Unavailable",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, 0., 0., .2),
-    ET.NO_ENTRY: NoEntryAlert("조향제어 일시적으로 사용불가",
+    ET.NO_ENTRY: NoEntryAlert("Steering Temporarily Unavailable",
                               duration_hud_alert=0.),
   },
 
@@ -547,7 +547,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
-    ET.NO_ENTRY: NoEntryAlert("저장공간 부족",
+    ET.NO_ENTRY: NoEntryAlert("Out of Storage Space",
                               duration_hud_alert=0.),
   },
 
@@ -561,7 +561,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "Reboot your Device",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=1.),
-    ET.NO_ENTRY: NoEntryAlert("장치 센서 오류"),
+    ET.NO_ENTRY: NoEntryAlert("No Data from Device Sensors"),
   },
 
   EventName.noGps: {
@@ -618,8 +618,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.espDisabled: {
-    ET.SOFT_DISABLE: SoftDisableAlert("ESP 꺼짐"),
-    ET.NO_ENTRY: NoEntryAlert("ESP 꺼짐"),
+    ET.SOFT_DISABLE: SoftDisableAlert("ESP Off"),
+    ET.NO_ENTRY: NoEntryAlert("ESP Off"),
   },
 
   EventName.lowBattery: {
@@ -634,19 +634,19 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.radarCommIssue: {
-    ET.SOFT_DISABLE: SoftDisableAlert("차량 레이더 통신오류"),
-    ET.NO_ENTRY: NoEntryAlert("차량 레이더 통신오류",
+    ET.SOFT_DISABLE: SoftDisableAlert("Radar Communication Issue"),
+    ET.NO_ENTRY: NoEntryAlert("Radar Communication Issue",
                               audible_alert=AudibleAlert.chimeDisengage),
   },
 
   EventName.radarCanError: {
-    ET.SOFT_DISABLE: SoftDisableAlert("레이더 오류 : 차량을 재가동하세요"),
-    ET.NO_ENTRY: NoEntryAlert("레이더 오류 : 차량을 재가동하세요"),
+    ET.SOFT_DISABLE: SoftDisableAlert("Radar Error: Restart the Car"),
+    ET.NO_ENTRY: NoEntryAlert("Radar Error: Restart the Car"),
   },
 
   EventName.radarFault: {
-    ET.SOFT_DISABLE: SoftDisableAlert("레이더 오류 : 차량을 재가동하세요"),
-    ET.NO_ENTRY: NoEntryAlert("레이더 오류 : 차량을 재가동하세요"),
+    ET.SOFT_DISABLE: SoftDisableAlert("Radar Error: Restart the Car"),
+    ET.NO_ENTRY: NoEntryAlert("Radar Error: Restart the Car"),
   },
 
   EventName.modeldLagging: {
@@ -705,22 +705,22 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.brakeUnavailable: {
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("크루즈 오류 : 차량을 재가동하세요"),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Cruise Fault: Restart the Car"),
     ET.PERMANENT: Alert(
-      "크루즈 오류 : 차량을 재가동하세요",
+      "Cruise Fault: Restart the car to engage",
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
-    ET.NO_ENTRY: NoEntryAlert("크루즈 오류 : 차량을 재가동하세요"),
+    ET.NO_ENTRY: NoEntryAlert("Cruise Fault: Restart the Car"),
   },
 
   EventName.reverseGear: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
-    ET.NO_ENTRY: NoEntryAlert("기어 [R] 상태"),
+    ET.NO_ENTRY: NoEntryAlert("Reverse Gear"),
   },
 
   EventName.cruiseDisabled: {
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("크루즈 꺼짐"),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Cruise Is Off"),
   },
 
   EventName.plannerError: {
@@ -766,8 +766,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   # TODO: this is unclear, update check only happens offroad
   EventName.internetConnectivityNeeded: {
-    ET.PERMANENT: NormalPermanentAlert("인터넷을 연결하세요", "업데이트 체크후 활성화 됩니다"),
-    ET.NO_ENTRY: NoEntryAlert("인터넷을 연결하세요",
+    ET.PERMANENT: NormalPermanentAlert("Connect to Internet", "An Update Check Is Required to Engage"),
+    ET.NO_ENTRY: NoEntryAlert("Connect to Internet",
                               audible_alert=AudibleAlert.chimeDisengage),
   },
 
@@ -777,7 +777,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
-    ET.NO_ENTRY: NoEntryAlert("크루즈 오류 : 차량을 재가동하세요"),
+    ET.NO_ENTRY: NoEntryAlert("Cruise Fault: Restart the Car"),
   },
 
 }
