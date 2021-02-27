@@ -669,9 +669,9 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.lowMemory: {
-    ET.SOFT_DISABLE: SoftDisableAlert("Low Memory: Reboot Your Device"),
-    ET.PERMANENT: NormalPermanentAlert("Low Memory: Reboot Your Device"),
-    ET.NO_ENTRY : NoEntryAlert("Low Memory: Reboot Your Device",
+    ET.SOFT_DISABLE: SoftDisableAlert("메모리 부족 : 장치를 재가동하세요"),
+    ET.PERMANENT: NormalPermanentAlert("메모리 부족", "장치를 재가동하세요"),
+    ET.NO_ENTRY : NoEntryAlert("메모리 부족 : 장치를 재가동하세요",
                                audible_alert=AudibleAlert.chimeDisengage),
   },
 
