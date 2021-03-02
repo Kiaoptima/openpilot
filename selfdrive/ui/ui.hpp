@@ -142,6 +142,9 @@ typedef struct UIScene {
   float tpmsFr;
   float tpmsRl;
   float tpmsRr;
+  int lateralControlPid;
+  int lateralControlIndi;
+  int lateralControlLqr;
 
   char batteryStatus[64];
 
@@ -237,6 +240,9 @@ typedef struct UIState {
   bool ignition;
   bool is_metric;
   bool longitudinal_control;
+  int lat_control_pid;
+  int lat_control_indi;
+  int lat_control_lqr;  
   uint64_t last_athena_ping;
   uint64_t started_frame;
 

@@ -150,18 +150,18 @@ from selfdrive.launcher import launcher
 # comment out anything you don't want to run
 managed_processes = {
   "thermald": "selfdrive.thermald.thermald",
-  "uploader": "selfdrive.loggerd.uploader",
-  "deleter": "selfdrive.loggerd.deleter",
+#  "uploader": "selfdrive.loggerd.uploader",
+#  "deleter": "selfdrive.loggerd.deleter",
   "controlsd": "selfdrive.controls.controlsd",
   "plannerd": "selfdrive.controls.plannerd",
   "radard": "selfdrive.controls.radard",
   "dmonitoringd": "selfdrive.monitoring.dmonitoringd",
   "ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
-  "loggerd": ("selfdrive/loggerd", ["./loggerd"]),
-  "logmessaged": "selfdrive.logmessaged",
+#  "loggerd": ("selfdrive/loggerd", ["./loggerd"]),
+#  "logmessaged": "selfdrive.logmessaged",
   "locationd": "selfdrive.locationd.locationd",
-  "tombstoned": "selfdrive.tombstoned",
-  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
+#  "tombstoned": "selfdrive.tombstoned",
+#  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
   "proclogd": ("selfdrive/proclogd", ["./proclogd"]),
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
@@ -172,7 +172,7 @@ managed_processes = {
   "sensord": ("selfdrive/sensord", ["./sensord"]),
   "clocksd": ("selfdrive/clocksd", ["./clocksd"]),
   "gpsd": ("selfdrive/sensord", ["./gpsd"]),
-  "updated": "selfdrive.updated",
+#  "updated": "selfdrive.updated",
   "dmonitoringmodeld": ("selfdrive/modeld", ["./dmonitoringmodeld"]),
   "modeld": ("selfdrive/modeld", ["./modeld"]),
   "rtshield": "selfdrive.rtshield",
@@ -412,26 +412,11 @@ def manager_thread():
   shutdownd = Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",))
   shutdownd.start()
 
-  # Disable logger
-  params = Params()
-  DisableLogger = int(params.get('DisableLogger'))
-
-  if DisableLogger:
-    persistent_processes.remove( 'logmessaged' )
-    persistent_processes.remove( 'uploader' )
-    persistent_processes.remove( 'deleter' )
-
-    persistent_processes.remove( 'updated' )
-    persistent_processes.remove( 'tombstoned' )
-
-    car_started_processes.remove( 'loggerd' )
-    car_started_processes.remove( 'logcatd' )
-  else:
-  # save boot log
-    subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
-
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
+  
+  # save boot log
+  subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   # start daemon processes
   for p in daemon_processes:
@@ -533,7 +518,9 @@ def main():
     ("AutoLaneChangeEnabled", "0"),
     ("PutPrebuilt", "0"),
     ("LdwsMfc", "0"),
-    ("DisableLogger", "1"),    
+    ("LateralControlPid", "0"),
+    ("LateralControlIndi", "0"),
+    ("LateralControlLqr", "1"),
     ("IsDriverViewEnabled", "0"),
   ]
 

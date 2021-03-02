@@ -87,6 +87,17 @@ class PathPlanner():
 
     angle_offset = sm['liveParameters'].angleOffset
 
+    lateral_control_pid = sm['controlsState'].lateralControlPid
+    lateral_control_indi = sm['controlsState'].lateralControlIndi
+    lateral_control_Lqr = sm['controlsState'].lateralControlLqr
+    
+    if lateral_control_pid == 1:
+      output_scale = sm['controlsState'].lateralControlState.pidState.output
+    elif lateral_control_indi == 1:
+      output_scale = sm['controlsState'].lateralControlState.indiState.output
+    elif lateral_control_lqr == 1:
+      output_scale = sm['controlsState'].lateralControlState.lqrState.output
+      
     # Run MPC
     self.angle_steers_des_prev = self.angle_steers_des_mpc
 
