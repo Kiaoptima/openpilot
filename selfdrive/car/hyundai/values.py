@@ -179,6 +179,10 @@ FINGERPRINTS = {
   }],
 }
 
+ECU_FINGERPRINT = {
+  Ecu.fwdCamera: [832, 1156, 1191, 1342]
+}
+
 # Don't use these fingerprints for fingerprinting, they are still used for ECU detection
 IGNORED_FINGERPRINTS = [CAR.IONIQ_HEV, CAR.KIA_NIRO_EV, CAR.ELANTRA_2020, CAR.GENESIS_G70]
 
