@@ -260,6 +260,14 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
+  
+  EventName.invalidGiraffeToyotaDEPRECATED: {
+    ET.PERMANENT: Alert(
+      "Unsupported Giraffe Configuration",
+      "Visit comma.ai/tg",
+      AlertStatus.normal, AlertSize.mid,
+      Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
+  },
 
   EventName.invalidLkasSetting: {
     ET.PERMANENT: Alert(
