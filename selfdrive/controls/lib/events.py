@@ -279,7 +279,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startup: {
     ET.PERMANENT: Alert(
-      "Be ready to take over at any time",
+      "Enjoy Openpilot. Have a safe ride!",
       "Always keep hands on wheel and eyes on road",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 5.),
@@ -287,11 +287,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
-      "WARNING: This SA branch is not tested",
+      "Enjoy Openpilot. Have a safe ride!",
       "Always keep hands on wheel and eyes on road",
-      AlertStatus.userPrompt, AlertSize.mid,
+      AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 5.),
-  },
+  }, # AlertStatus.userPrompt, AlertSize.mid,
 
   EventName.startupNoControl: {
     ET.PERMANENT: Alert(
@@ -533,8 +533,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.gpsMalfunction: {
-    ET.PERMANENT: NormalPermanentAlert("GPS Malfunction", "Contact Support"),
-  },
+    ET.PERMANENT: NormalPermanentAlert("GPS OFF", "Hope you had a nice and relaxed drive!"),
+  }, # GPS malfunction, contact support
 
   # ********** events that affect controls state transitions **********
 
